@@ -11,7 +11,7 @@ function Admin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/sendmail", { asunto, mensaje, enlace });
+      const response = await axios.post("https://rodando-back.vercel.app/sendmail", { asunto, mensaje, enlace });
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',

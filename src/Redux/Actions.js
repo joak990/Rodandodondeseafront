@@ -5,7 +5,7 @@ export const newsletter = (payload) => {
     return async function (dispatch) {
       try {
         console.log(payload);
-        const response = await axios.post("http://localhost:3001/users", payload);
+        const response = await axios.post("https://rodando-back.vercel.app/users", payload);
         if (response.status === 200) {
           // Mostrar un SweetAlert2 de éxito
           Swal.fire({
