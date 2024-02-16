@@ -5,13 +5,23 @@ import Logo from './rodando.jpg';
 
 function Admin() {
   const [asunto, setAsunto] = useState('');
-  const [mensaje, setMensaje] = useState('');
+  const [photoFile, setPhotoFile] = useState(null);
   const [enlace, setEnlace] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://rodando-back.vercel.app/sendmail", { asunto, mensaje, enlace });
+      const formData = new FormData();
+      formData.append('asunto', asunto);
+      formData.append('photoFile', photoFile);
+      formData.append('enlace', enlace);
+
+      const response = await axios.post("http://localhost:3001/sendmail", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',
@@ -20,8 +30,8 @@ function Admin() {
         });
         // Limpiar los inputs
         setAsunto('');
-        setMensaje('');
         setEnlace('');
+        setPhotoFile(null);
       }
     } catch (error) {
       console.log(error);
@@ -50,16 +60,14 @@ function Admin() {
             required
             className="border rounded px-4 py-2 w-full mb-4"
           />
-          <label htmlFor="mensaje" className="block mb-2 text-sm">Mensaje:</label>
-          <textarea
-            id="mensaje"
-            name="mensaje"
-            value={mensaje}
-            onChange={(e) => setMensaje(e.target.value)}
-            placeholder="Mensaje del correo"
-            required
-            className="border rounded px-4 py-2 w-full h-32 mb-4"
-          ></textarea>
+          <label htmlFor="photo" className="block mb-2 text-sm">Foto:</label>
+          <input
+            type="file"
+            id="photo"
+            name="photo"
+            onChange={(e) => setPhotoFile(e.target.files[0])}
+            className="mb-4"
+          />
           <label htmlFor="enlace" className="block mb-2 text-sm">Enlace:</label>
           <input
             type="text"
