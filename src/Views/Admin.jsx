@@ -31,7 +31,7 @@ function Admin() {
         // Limpiar los inputs
         setAsunto('');
         setEnlace('');
-        setPhotoFile(null);
+        setPhotoFile('');
       }
     } catch (error) {
       console.log(error);
